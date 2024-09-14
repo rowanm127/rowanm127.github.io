@@ -1,0 +1,1593 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Heart of the Empire</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/mapbox-gl-animated-popup@v0.4.0/dist/mapbox-gl-animated-popup.min.js"></script>
+    <link rel="stylesheet" href="https://use.typekit.net/anr7rne.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400;1,500;1,700;1,800;1,900&family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .no-select {
+            -webkit-user-select: none;
+            /* Safari */
+            -ms-user-select: none;
+            /* IE 10 and IE 11 */
+            user-select: none;
+            /* Standard syntax */
+        }
+
+        .mapboxgl-ctrl-group {
+            outline: 2px solid #c8202f;
+        }
+
+        .mapboxgl-ctrl-group button+button {
+            border-top: 2px solid #c8202f
+        }
+
+        .mapboxgl-ctrl-group button:first-child {
+            border-radius: 5px 5px 0 0;
+        }
+
+        .mapboxgl-ctrl-group button:last-child {
+            border-radius: 0 0 5px 5px;
+        }
+
+        .mapboxgl-popup-content {
+            outline: 2px solid #c8202f;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .mapboxgl-popup-wrapper {
+                max-width: 70vw;
+                width: 70vw;
+            }
+        }
+
+        /* Modal background overlay */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 5;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black with opacity */
+        }
+
+        /* Modal content */
+        .more-info-content {
+            background-color: #fefefe;
+            margin: 20% auto;
+            padding: 20px;
+            border: 2px solid #c8202f;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        /* Close button */
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+        .help-container {
+            max-width: 60px;
+            height: 60px;
+            margin: 15px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .help-active,
+        .help-container {
+            transition: max-width 0.2s ease-out;
+        }
+
+        .help-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+        }
+
+        .help-button {
+            position: relative;
+            z-index: 1;
+            background-color: #fff;
+            color: black;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            outline: 2px solid #c8202f;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: border-radius 0.2s ease-out;
+            display: grid;
+            grid-template-columns: 60px auto;
+            align-items: center;
+            justify-content: start;
+        }
+
+        .help-active,
+        .help-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .help-active,
+        .help-button::after {
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .help-content {
+            width: 100%;
+            max-height: 0;
+            transition: max-height 0.2s ease-out, outline 0.2s ease-out;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            position: absolute;
+            border-radius: 0 0 5px 5px;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            scrollbar-color: #c8202f #f1f1f1;
+            outline: none;
+        }
+
+        .help-active,
+        .help-content::after {
+            outline: 2px solid #c8202f;
+        }
+
+        .info-button {
+            border: none;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0);
+            display: grid;
+            grid-template-columns: 60px auto;
+            align-items: center;
+            justify-content: start;
+            padding: 0;
+        }
+
+        .filter-container {
+            max-width: 60px;
+            height: 60px;
+            margin: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .filter-active,
+        .filter-container {
+            transition: max-width 0.2s ease-out;
+        }
+
+        .filter-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+        }
+
+        .filter-button {
+            position: relative;
+            z-index: 3;
+            background-color: #fff;
+            color: black;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            outline: 2px solid #c8202f;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 60px auto;
+            align-items: center;
+            justify-content: start;
+        }
+
+        .filter-active,
+        .filter-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .filter-active,
+        .filter-button:after {
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .filter-nav {
+            overflow: hidden;
+            padding: 5px;
+            padding-bottom: 0px;
+        }
+
+        .filter-nav button {
+            height: 35px;
+            width: 70px;
+            background-color: #fff;
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 15px;
+            color: black;
+            cursor: pointer;
+            border: 2px solid #c8202f;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            text-transform: capitalize;
+            position: relative;
+        }
+
+        .filter-nav button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .filter-group-outer {
+            width: 100%;
+            height: 0;
+            transition: height 0.2s ease-out;
+            overflow: hidden;
+            position: absolute;
+            background-color: #f1f1f1;
+            border-radius: 0px 0px 5px 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .filter-active,
+        .filter-group-outer::after {
+            outline: 2px solid #c8202f;
+        }
+
+        .filter-group {
+            position: absolute;
+            max-width: 96%;
+            height: 90%;
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 15px;
+            overflow: auto;
+            scrollbar-color: #c8202f #f1f1f1;
+            color: #000;
+            padding: 10px;
+            display: grid;
+            /*grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));*/
+            gap: 10px;
+        }
+
+        .filter-group .filter-subgroup {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group input[type='checkbox'] {
+            display: none;
+        }
+
+        .filter-group label {
+            background-color: #fff;
+            display: block;
+            cursor: pointer;
+            padding: 5px;
+            padding-left: 35px;
+            border: 2px solid #c8202f;
+            border-bottom: none;
+            transition: background-color 0.3s ease;
+            text-transform: capitalize;
+            position: relative;
+        }
+
+        .filter-group label:first-of-type {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .filter-group label:last-of-type {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-bottom: 2px solid #c8202f;
+            margin-bottom: 0;
+        }
+
+        .filter-group input[type='checkbox']+label:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border: 2px solid #c8202f;
+            border-radius: 2px;
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-group input[type='checkbox']+label:hover,
+        .filter-group input[type='checkbox']:checked+label {
+            background-color: #f1f1f1;
+        }
+
+        .filter-group input[type='checkbox']:checked+label:before {
+            background-color: #c8202f;
+        }
+
+        #creators {
+            overflow: auto;
+            grid-template-columns: repeat(4, 180px);
+        }
+
+        #events {
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+        }
+
+        .audio-container {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            margin: 15px;
+            z-index: 0;
+        }
+
+        .audio-button {
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            outline: 2px solid #c8202f;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .audio-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .download-container {
+            max-width: 60px;
+            height: 60px;
+            margin: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-active,
+        .download-container {
+            transition: max-width 0.2s ease-out;
+        }
+
+        .download-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+        }
+
+        .download-button {
+            position: relative;
+            z-index: 1;
+            background-color: #fff;
+            color: #000;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            outline: 2px solid #c8202f;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: border-radius 0.2s ease-out;
+            display: grid;
+            grid-template-columns: 60px auto;
+            align-items: center;
+            justify-content: start;
+        }
+
+        .download-active,
+        .download-button:hover {
+            background-color: #f1f1f1;
+        }
+
+        .download-active,
+        .download-button::after {
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .download-content {
+            width: 100%;
+            max-height: 0;
+            transition: max-height 0.2s ease-out, outline 0.2s ease-out;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            position: absolute;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            scrollbar-color: #c8202f #f1f1f1;
+            outline: none;
+            display: grid;
+            grid-template-columns: 200px 200px;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .download-active,
+        .download-content::after {
+            outline: 2px solid #c8202f;
+        }
+
+        #fly {
+            cursor: pointer;
+            color: #c8202f;
+            text-decoration-line: underline;
+        }
+
+        .alegreya-sc-regular {
+            font-family: "Alegreya SC", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .alegreya-sc-medium {
+            font-family: "Alegreya SC", serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        .alegreya-sc-bold {
+            font-family: "Alegreya SC", serif;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .alegreya-sc-regular-italic {
+            font-family: "Alegreya SC", serif;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .alegreya-sc-medium-italic {
+            font-family: "Alegreya SC", serif;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .alegreya-sc-bold-italic {
+            font-family: "Alegreya SC", serif;
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .alegreya-regular> {
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .alegreya-medium> {
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        .alegreya-bold> {
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .alegreya-regular-italic> {
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .material-symbols-outlined {
+            font-size: 40px;
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 40
+        }
+
+        h1 {
+            font-family: priori-serif, serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 40px;
+            line-height: 1;
+            margin: 0;
+        }
+
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 35px;
+                line-height: 1;
+            }
+        }
+
+        h2 {
+            font-family: priori-serif, serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 20px;
+            line-height: 1;
+            margin: 0;
+        }
+
+        h3 {
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            margin: 0;
+        }
+
+        p {
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 20px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            p {
+                font-size: 15px;
+                line-height: 1;
+            }
+        }
+
+        i {
+            font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        a {
+            color: #c8202f;
+        }
+
+        img {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="more-info" class="modal">
+        <div class="more-info-content">
+            <span class="close-button">&times;</span>
+            <h2>More info.</h2>
+            <p>This project was created through research from a variety of sources, in particular: <a href="https://www.londonremembers.com/" target="_blank">London Remembers</a>, <a href="https://artuk.org/" target="_blank">Art UK</a> and <a href="https://www.britannica.com/" target="_blank">Encyclopedia Britannica</a>. 
+            </p>
+        </div>
+    </div>
+    <!--Help Button-->
+    <div class="help-container">
+        <button type="button" class="help-button">
+            <div class="help-icon no-select"><span class="material-symbols-outlined">
+                    help
+                </span></div>
+            <p style="overflow: hidden;">
+                Help
+            </p>
+        </button>
+        <div class="help-content">
+            <p style="margin: 10px;">Drag using the left mouse button to move the map.</br>
+                Use the right mouse button to rotate and view the<br>map in 3D.
+            </p>
+            <button type="button" class="info-button no-select"><span class=" material-symbols-outlined">
+                    info
+                </span>
+                <p style="overflow: hidden">More Info.</p>
+            </button>
+        </div>
+        <!--Reveal content of help button-->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const helpButton = document.querySelector('.help-button');
+                const helpContainer = document.querySelector('.help-container');
+                const helpContent = document.querySelector('.help-content');
+                const infoButton = document.querySelector('.info-button');
+                const modal = document.getElementById('more-info');
+                const closeButton = document.querySelector('.close-button');
+
+                // Toggle help content visibility
+                helpButton.addEventListener('click', function () {
+                    helpContainer.classList.toggle('help-active');
+                    helpContent.classList.toggle('help-active');
+                    this.classList.toggle('help-active');
+                    let content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        content.style.overflow = null;
+                        helpContainer.style.maxWidth = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        content.style.overflow = "auto";
+                        helpContainer.style.maxWidth = "440px";
+                    }
+                });
+
+                // Show the modal and close the help content when "More Info" is clicked
+                infoButton.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                    helpContainer.classList.remove('help-active');
+                    helpContent.classList.remove('help-active');
+                    helpButton.classList.remove('help-active');
+                    helpContent.style.maxHeight = null;
+                    helpContainer.style.maxWidth = null;
+                });
+
+                // Close the modal when the close button is clicked
+                closeButton.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+
+                // Close the modal when clicking outside of the modal
+                window.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+        </script>
+    </div>
+    <!--Filter Button-->
+    <div class="filter-container">
+        <button type="button" class="filter-button">
+            <div class="filter-icon no-select"><span class="material-symbols-outlined">
+                    filter_list
+                </span></div>
+            <p style="overflow: hidden;">
+                Filters
+            </p>
+        </button>
+        <div class="filter-content">
+            <div class="filter-group-outer">
+                <div class="filter-nav no-select">
+                    <button id="creators-button" class="filter-select" type="button">Creators</button>
+                    <button id="events-button" class="filter-select" type="button">Events</button>
+                </div>
+                <div id="creators" class="filter-group"></div>
+                <div id="events" class="filter-group" style="display: none;"></div>
+            </div>
+        </div>
+        <!--Reveal Filters-->
+        <script>
+            const filterButton = document.getElementsByClassName("filter-button");
+            const filterContainer = document.getElementsByClassName("filter-container")[0]
+            const filterOuter = document.getElementsByClassName("filter-group-outer")[0]
+
+            for (i = 0; i < filterButton.length; i++) {
+                filterButton[i].addEventListener("click", function () {
+                    filterContainer.classList.toggle("filter-active")
+                    filterOuter.classList.toggle("filter-active")
+                    this.classList.toggle("filter-active");
+                    if (filterOuter.style.height) {
+                        filterOuter.style.height = null;
+                        filterContainer.style.maxWidth = null;
+                    } else {
+                        filterOuter.style.height = "650px";
+                        filterContainer.style.maxWidth = "800px";
+                    }
+                });
+            }
+
+            //Filter <div> select buttons
+            const creatorsFilter = document.getElementById("creators")
+            const eventsFilter = document.getElementById("events")
+
+            document.addEventListener('click', function (event) {
+                if (event.target && event.target.id === 'creators-button') {
+                    creatorsFilter.style.display = null;
+                    eventsFilter.style.display = "none";
+                } else if (event.target && event.target.id === 'events-button') {
+                    creatorsFilter.style.display = "none";
+                    eventsFilter.style.display = null;
+                }
+
+            });
+        </script>
+    </div>
+    <!--Download Button-->
+    <div class="download-container">
+        <button type="button" class="download-button">
+            <div class="download-icon no-select"><span class="material-symbols-outlined">
+                    download
+                </span></div>
+            <p style="overflow: hidden;">
+                Download
+            </p>
+        </button>
+        <div class="download-content">
+            <img src="img/EmpireWalkQR.png" alt="QR Code" style="padding: 10px; width: 200px;"></img>
+            <p style="font-size: 16px;">This QR code will download a .gpx file of the route for you to follow in your own
+                time. I recommend an offline maps app such as <a href="https://organicmaps.app/" target="_blank">Organic
+                    Maps</a>.</p>
+        </div>
+        <!--Reveal content of download button-->
+        <script>
+            const downloadButton = document.getElementsByClassName("download-button");
+            const downloadContainer = document.getElementsByClassName("download-container")[0];
+            const downloadContent = document.getElementsByClassName("download-content")[0];
+
+            for (i = 0; i < downloadButton.length; i++) {
+                downloadButton[i].addEventListener("click", function () {
+                    downloadContainer.classList.toggle("download-active");
+                    downloadContent.classList.toggle("download-active")
+                    this.classList.toggle("download-active");
+                    let content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        content.style.overflow = null;
+                        downloadContainer.style.maxWidth = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        content.style.overflow = "auto";
+                        downloadContainer.style.maxWidth = "440px";
+                    }
+                });
+            }
+        </script>
+    </div>
+    <!--Audio Guide Button
+    <div class="audio-container">
+        <button type="button" class="audio-button"><span class="material-symbols-outlined">
+                headphones
+            </span>
+        </button>
+    </div>-->
+    <!--This script is for camera movement-->
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <!--Map Scripts-->
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoicm93eW91cmJvYXQxMjciLCJhIjoiY20wejYzc3EwMDJraTJsc2Z4aW1nMHhkNSJ9.0t2ieqjgaAAMgb7CYDFGiQ';
+        // Set bounds
+        const bounds = [
+            [-0.15806827, 51.4953854], // Southwest coordinates
+            [-0.11072426, 51.51141814] // Northeast coordinates
+        ];
+        //Map
+        const map = new mapboxgl.Map({
+            container: 'map',
+            // Replace YOUR_STYLE_URL with your style URL.
+            style: 'mapbox://styles/rowyourboat127/clz2fdla200kk01pf011l6or0',
+            center: [-0.13211, 51.50393],
+            zoom: 15,
+            maxBounds: bounds //Set the map's geographical boundaries.
+        });
+
+        //Waypoint properties
+        const waypoints = {
+            "Henry Havelock": {
+                description: "This statue is known for the number of pigeons that sit on it, the amount of people who lean on it, and the fact that it is a statue of Henry Havelock. Havelock is known for (depending on your feelings) either his barbaric or heroic actions during the Indian Rebellion of 1857 where he rose to fame recapturing Cawnpore as well as Lucknow. Looking at Havelock's statue, along with many other military leaders on this list, through the lens of the 21st Century, it can be difficult to understand why these figures were so often celebrated for their violence.",
+                image: "henry_havelock",
+                coordinates: null,
+                date: "1861",
+                creators: {
+                    sculptors: "William Behnes",
+                    architects: null,
+                    foundries: "Robinson & Cottam",
+                    stonemasons: null
+                },
+                links: null,
+                roles: "Soldier",
+                events: "Indian Rebellion of 1857; Siege of Lucknow; Siege of Cawnpore"
+            },
+            "Nelson's Column": {
+                description: "Situated in Trafalgar Square, this column is probably one of the most iconic landmarks within central London. Commemorating the 1805 Battle of Trafalgar, Encyclopedia Britannica claims that Nelson is still seen as one of the most appealing British national heroes. Knowing the history between the British and French, this is not surprising.<br><br>Before the statue of Nelson took its place, fourteen people had a steak dinner at the top of the column. The monument itself is impressive, not just in its size and the history of Nelson, but also for the huge amount of pigeon poo that can be found at the top of it.",
+                image: "nelson",
+                coordinates: null,
+                date: "1843",
+                creators: {
+                    sculptors: "Edward Hodges Baily; John Edward Carew; William Frederick Woodington; John Ternouth; Musgrave Lewthwaite Watson; Edwin Henry Landseer",
+                    architects: "William Railton",
+                    foundries: "Christy, Adams and Hill; Carlo Marochetti; Moore, Fressange and Moore",
+                    stonemasons: "Grissell and Peto",
+                },
+                links: null,
+                roles: "British naval commander; Vice-Admiral; Viscount",
+                events: "Battle of Trafalgar; French Revolutionary Wars; Napoleonic Wars"
+            },
+            "Charles James Napier": {
+                description: "Overshadowed by Nelson's Column and criticised as one of the worst pieces of sculpture, unworthy of its place in Trafalgar Square, Napier was a fan of law and order and a man with major trust issues. It would not be surprising if his soldiers were <s>provoked</s> politely asked to donate to the public subscription to have this statue built.",
+                image: "napier",
+                coordinates: null,
+                date: "1856",
+                creators: {
+                    sculptors: "George Gammon Adams",
+                    architects: null,
+                    foundries: "Messrs Thompson of Pimlico",
+                    stonemasons: null
+                },
+                links: "<a href='https://www.victorianweb.org/sculpture/adams/1b.html' target='_blank'>The Victorian Web</a>",
+                roles: "British General; Governor of Sindh; Commander-in-Chief in India",
+                events: "Battle of Miāni; Napoleonic Wars; British conquest of Sindh"
+            },
+            "Royal Marines": {
+                description: "Regardless of how we look at soldiers, either heroes or murderers, there seems to be more justification and acceptance towards memorials that remember all those who fell in the battle rather than just their leaders. Ordinary people who put their lives on the line with nothing but national pride and dedication to one's country to perform their duty.<br><br>This memorial commemorates Royal Marines who died during the Boxer Rebellion and the Second Boer War. <span id='fly' data-name='The Royal Artillery Boer War Memorial'>Another memorial to the Second Boer War can be found nearby this one.</span>",
+                image: "royal_marines",
+                coordinates: [-0.129533, 51.506538],
+                date: "1903",
+                creators: {
+                    sculptors: "Adrian Jones",
+                    architects: null,
+                    foundries: "Thomas Graham Jackson",
+                    stonemasons: null
+                },
+                links: null,
+                roles: "Royal Marines",
+                events: "Boxer Rebellion; Second Boer War"
+            },
+            "James Cook": {
+                description: "If colonisation had to have a face, James Cook could be a candidate. An explorer / coloniser (depending on how you look at it) of the Pacific, mainly Canada, North America, Australia and New Zealand. He revolutionised sailing and achieved great fame during his time.<br><br>The statue itself, just off the Mall, represents Cook as a hero, the man who helped to further lay the foundations of the British Empire, but can he be a hero when he disrupted the lives of so many Native people?",
+                image: "james_cook",
+                coordinates: null,
+                date: "1914",
+                creators: {
+                    sculptors: "Thomas Brock",
+                    architects: "Aston Webb",
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                roles: "British Naval Captain; Navigator and Explorer",
+                events: "Voyages of James Cook; Colonisation of the Pacific"
+            },
+            "Duke of York Column": {
+                description: "Oh, the grand old Duke of York,<br>He had ten thousand men<br>A day's pay was stolen from each of them,<br>To build a great big monument.<br><br>The column designed by Benjamin Wyatt actually houses a set of stairs leading up to a viewing platform. This was allegedly closed after a number of suicides in the 19th century.<br><br>The Duke himself had to resign as commander in chief in 1809 as his mistress, Mary Anne Clarke, had taken money from officers in return for promising the Duke would promote them. Despite this, he was acquitted of wrongdoing and restored to office in 1811.",
+                image: "duke_of_york",
+                coordinates: null,
+                date: "1833",
+                creators: {
+                    sculptors: "Richard Westmacott II",
+                    architects: "Benjamin Wyatt",
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                roles: "British Field Commander",
+                events: "French Revolutionary Wars"
+            },
+            "Gladstone Blue Plaque": {
+                description: "The blue plaque for former Prime Minister William Ewart Gladstone. His father was the owner of sugar plantations in the West Indies that used slaves to carry out work. Early in his political career as a Tory, Gladstone argued in defence of slave owners such as his father, using his first speech in parliament to defend against charges of cruelty towards slaves. When slavery was abolished, Gladstone benefited heavily from his father's position as well as his own by seeking financial compensation for slave owners. However, after seemingly having a small change of heart, he spent the latter part of his career attempting to uphold the rights of non-Europeans and reduce the use of slave workers.",
+                image: 'gladstone_plaque',
+                coordinates: null,
+                date: '1925',
+                creators: {
+                    sculptors: null,
+                    architects: 'London County Council',
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: '<a href="https://www.english-heritage.org.uk/visit/blue-plaques/william-ewart-gladstone/" target="_blank">English Heritage</a>',
+                roles: "Former British Prime Minister",
+                events: "Bulgarian Horrors; Irish Home Rule Movement; American Civil War; First Boer War; Second Anglo-Afghan War; Mahdist War; Opium Wars"
+            },
+            "John Lawrence": {
+                description: "John Lawrence was Viceroy of India from 1864-1869 and before that was the governor of the Jullundur and Hill States regions. During his time he attempted to end acts of female infanticide (the intentional killing of newborn girls) as well as suttee (a Hindu widow burning herself to death after her husband has passed away). He also played a role in the suppression of the Indian Mutiny of 1857 ",
+                image: null,
+                coordinates: null,
+                date: null,
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: '<a href="https://www.english-heritage.org.uk/visit/london-statues-and-monuments/statues-gallery/" target="_blank">English Heritage</a>',
+                roles: null,
+                events: null
+            },
+            "King Edward VII": {
+                description: "Despite his short reign, Edward VII was fairly popular and has statues that can be found throughout the former colonies of the British Empire. He inherited the throne after the death of Queen Victoria and commissioned several memorials in memory of her including Admiralty Arch and the <span id='fly' data-name='Victoria Memorial'>Victoria Memorial</span> outside of Buckingham Palace.<br>",
+                image: "edward_vii",
+                coordinates: null,
+                date: "1921",
+                creators: {
+                    sculptors: "Edgar Bertram MacKennal",
+                    architects: "Edwin Landseer Lutyens",
+                    foundries: "J.W. Singer & Sons",
+                    stonemasons: null
+                },
+                links: '<a href="https://www.londonremembers.com/memorials/edward-vii-statue-waterloo-place" target="_blank">London Remembers</a><br><a href="https://www.britishpathe.com/asset/48903/" target="_blank">Statue Unveiling Video</a>',
+                roles: "King of the United Kingdom; Emperor of India",
+                events: "Second Boer War"
+            },
+            "Sir Keith Park": {
+                description: "A much more modern statue than the others on this last and arguably one of a figure more deserving of a statue. As the inscription on the statue says, Keith Park epitomises the role played by those from Commonwealth and other allied countries alongside British forces in saving the nation from invasion. The role that those in the commonwealth have played in continuing to help Britain is something which has perhaps been forgotten more with time.",
+                image: "keith_park",
+                coordinates: null,
+                date: "2010",
+                creators: {
+                    sculptors: "Les Johnson",
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                roles: null,
+                events: null
+            },
+            "John Franklin": {
+                description: "This statue is supposed to depict Franklin announcing the discovery of the Northwest Passage to his crew. A lot of the elements featured on this statue also make reference to this such as the telescope, charts, and compass as well as the anchor and block of ice behind him. In reality the expedition actually ended in tragedy for him and his crew as they lost their lives searching for the passage.",
+                image: null,
+                coordinates: null,
+                date: null,
+                creators: {
+                    sculptors: "Matthew Noble",
+                    architects: null,
+                    foundries: "Robinson & Cottam",
+                    stonemasons: "Macdonald, Field & Co."
+                },
+                links: null,
+                roles: null,
+                events: "Search for the Northwest Passage"
+            },
+            "Lord Curzon": {
+                description: "Lord Curzon personally requested that <span id='fly' data-name='Kitchener'> Lord Kitchener</span> be given the role of commander in chief of the India army as well as a military member of his cabinet. MORE TEXT HERE. On August 16, 1905, Curzon's resignation was accepted. When he returned to London the Tories were no longer in office and his achievements were forgotten. He never received the earldom usually award to retiring viceroys.",
+                image: "curzon",
+                coordinates: [-0.133279, 51.505958],
+                date: "",
+                creators: {
+                    sculptors: "Edgar Bertram MacKennal",
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "<a href='https://www.youtube.com/watch?v=MtT6IsG-mIw' target='_blank'>Statue Unveiling</a>",
+                roles: "Viceroy of India; Foreign Secretary",
+                events: null
+            },
+            "George Curzon Blue Plaque": {
+                description: "A plaque marking the location where <span id='fly' data-name='Lord Curzon'>George Nathaniel Curzon</span> lived and died.",
+                image: null,
+                coordinates: null,
+                date: null,
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null
+            },
+            "Lord Palmerston Plaque": {
+                description: "A plaque marking a location that <span id='fly' data-name='Lord Palmerston'>hereLord Palmerston</span> had lived in.",
+                image: "palmerston_plaque",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "Opium Wars;Crimean War"
+            },
+            "Charles De Gaulle Plaque": {
+                description: "CDG plaque",
+                image: null,
+                coordinates: null,
+                date: null,
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null
+            },
+            "Charles De Gaulle": {
+                description: "",
+                image: null,
+                coordinates: null,
+                date: null,
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null
+            },
+            "Herbert Kitchener Plaque": {
+                description: "Plaque",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: ""
+            },
+            "Queen Alexandra Memorial": {
+                description: "",
+                image: "alexandra",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: ""
+            },
+            "Victoria Memorial": {
+                description: "If you look closely at this memorial you may see that the nose of Victoria actually looks different to the rest of the stone. This was allegedly damaged when the memorial was being refurbished and, despite the fact they used the same type of stone, it is unweathered and so for now sticks out like a sore thumb.",
+                image: "",
+                coordinates: [-0.140586, 51.501839],
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: ""
+            },
+            "The Royal Artillery Boer War Memorial": {
+                description: "",
+                image: "",
+                coordinates: [-0.131039, 51.505465],
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: ""
+            },
+            "Kitchener": {
+                description: "Potentially obstructed view of the statue. Most famous for having his face plastered on war recruitment posters. Appointed as commander in chief of the Indian army by <span id='fly' data-name='Lord Curzon'> Lord Curzon</span>, Kitchener fought over control of the army he had been appointed to and remained in India until 1909. He was disappointed to never be appointed viceroy of india.",
+                image: "kitchener",
+                coordinates: [-0.127956, 51.503924],
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null
+            },
+            "Earl Mountbatten of Burma": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: ""
+            },
+            "Robert Clive": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "",
+                role: null,
+                events: null
+            },
+            "Westminster Scholars War Memorial": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "",
+                role: null,
+                events: null
+            },
+            "George Canning": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "",
+                role: null,
+                events: null
+            },
+            "Lord Palmerston": {
+                description: "",
+                image: "palmerston",
+                coordinates: [-0.127076, 51.500905],
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "",
+                role: null,
+                events: "Opium Wars;Crimean War"
+            },
+            "Jan Smuts": {
+                description: "",
+                image: "jan_smuts",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "",
+                role: null,
+                events: null
+            },
+            "Monty": {
+                description: "Bernard Montgomery is a fairly well known war hero. Well known enough to have a statue outside the ministry of defense. However he is clearly not known well enough for people to know about his attempt at flirting with a 17 year old girl while he himself was in his 30s. He tried to achieve this by drawing tank strategy plans into the sand.",
+                image: "monty",
+                coordinates: null,
+                date: "1980",
+                creators: {
+                    sculptors: "Oscar Nemon",
+                    architects: null,
+                    foundries: "Morris Singer Art Foundry Ltd",
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: null
+            },
+            "Korean War Memorial": {
+                description: "",
+                image: "korea_war",
+                coordinates: null,
+                date: "2014",
+                creators: {
+                    sculptors: "Philip Jackson",
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "Korean War"
+            },
+            "Fleet Air Arm Memorial": {
+                description: "",
+                image: "fleet_air",
+                coordinates: null,
+                date: "2000",
+                creators: {
+                    sculptors: "James Butler",
+                    architects: "Tim Kempster",
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "First World War;Second World War;Korean War;Falklands War; Gulf War"
+            },
+            "Charles George Gordon": {
+                description: "",
+                image: "gordon",
+                coordinates: null,
+                date: "1888",
+                creators: {
+                    sculptors: "Hamo Thornycroft",
+                    architects: null,
+                    foundries: "Moore & Co.",
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "Crimean War;Siege of Khartoum;Opium Wars"
+            },
+            "The Gurkha Soldier": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: "Philip Jackson",
+                    architects: "Cecil Denny Highton",
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "",
+                role: null,
+                events: "Indian Rebellion of 1857;First World War;Second World War;Gulf War;Siege of Lucknow"
+            },
+            "Sir James Outram": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "",
+                role: null,
+                events: "Indian Rebellion of 1857;Siege of Lucknow"
+            },
+            "Imperial Camel Corps Memorial": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "First World War"
+            },
+            "Rudyard Kipling Plaque": {
+                description: "",
+                image: "",
+                coordinates: null,
+                date: "",
+                creators: {
+                    sculptors: null,
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: "Writer",
+                events: "First World War"
+            }
+        };
+
+        //Filter things
+        const filterGroupCreators = document.getElementById("creators");
+        const filterGroupEvents = document.getElementById("events");
+
+        map.on('load', () => {
+            //Array that holds which waypoints are created by which creators
+            const creatorsToWaypoints = {
+                sculptors: {},
+                architects: {},
+                foundries: {},
+                stonemasons: {}
+            };
+
+            //Array that holds which waypoints are from which events
+            const eventsToWaypoints = {};
+
+            //Fill the creatorsToWaypoints array
+            for (const [name, data] of Object.entries(waypoints)) {
+                const creators = data.creators;
+                for (const [role, creatorList] of Object.entries(creators)) {
+                    if (creatorList) {
+                        // Split creator names by semicolon and trim whitespace if it contains one
+                        const creatorsArray = creatorList.includes(';')
+                            ? creatorList.split(';').map(creator => creator.trim())
+                            : [creatorList.trim()];//Treat as a single name if no semicolon is found
+
+                        creatorsArray.forEach(creator => {
+                            if (!creatorsToWaypoints[role][creator]) {
+                                creatorsToWaypoints[role][creator] = [];
+                            }
+                            creatorsToWaypoints[role][creator].push(name);
+                        });
+                    }
+                }
+            }
+
+            //Fill the eventsToWaypoints array
+            for (const [name, data] of Object.entries(waypoints)) {
+                const events = data.events;
+                if (events) {
+                    // Split event names by semicolon and trim whitespace if it contains one
+                    const eventsArray = events.includes(';')
+                        ? events.split(';').map(event => event.trim())
+                        : [events.trim()];//Treat as a single event if no semicolon is found
+
+                    eventsArray.forEach(event => {
+                        if (!eventsToWaypoints[event]) {
+                            eventsToWaypoints[event] = [];
+                        }
+                        eventsToWaypoints[event].push(name);
+                    });
+                }
+            }
+
+            //function called when a checkbox is toggled
+            const updateLayerFilter = () => {
+                //get array of creators that corresponds to checked boxes
+                const checkedCreators = {
+                    sculptors: [],
+                    architects: [],
+                    foundries: [],
+                    stonemasons: []
+                };
+
+                Object.keys(checkedCreators).forEach(role => {
+                    checkedCreators[role] =
+                        [...document.querySelectorAll(`input[data-role="${role}"]`)]
+                            .filter((el) => el.checked)
+                            .map((el) => el.id);
+                });
+
+                //get array of events that corresponds to checked boxes
+                const checkedEvents = [...document.querySelectorAll(`input[data-role="event"]`)]
+                    .filter((el) => el.checked)
+                    .map((el) => el.id);
+
+                //Obtain which waypoints should be visible based on selected filter
+                const visibleWaypointNames = new Set();
+                Object.keys(checkedCreators).forEach(role => {
+                    checkedCreators[role].forEach(creator => {
+                        creatorsToWaypoints[role][creator].forEach(name => visibleWaypointNames.add(name));
+                    });
+                });
+
+                checkedEvents.forEach(event => {
+                    if (eventsToWaypoints[event]) {
+                        eventsToWaypoints[event].forEach(name => visibleWaypointNames.add(name));
+                    } else {
+                        console.log(`Event not found in eventsToWaypoints: ${event}`);
+                    }
+                });
+
+                // Debugging Output
+                console.log("Checked Events:", checkedEvents);
+                console.log("Visible Waypoints:", [...visibleWaypointNames]);
+
+                //If no filter is selected, show all waypoints
+                if (visibleWaypointNames.size === 0) {
+                    map.setFilter('waypoints', null);
+                    map.setFilter('waypoints-text', null);
+                } else {
+                    //Filter the layer
+                    map.setFilter('waypoints', ['in', 'name', ...visibleWaypointNames]);
+                    map.setFilter('waypoints-text', ['in', 'name', ...visibleWaypointNames]);
+                }
+            };
+
+            // Function to create a checkbox group for a specific creator role
+            const createCheckboxGroup = (role) => {
+                const roleContainer = document.createElement('div');
+                roleContainer.className = 'filter-subgroup';
+                const roleTitle = document.createElement('h2');
+                roleTitle.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+                roleContainer.appendChild(roleTitle);
+
+                const sortedCreators = Object.keys(creatorsToWaypoints[role]).sort((a, b) => a.localeCompare(b));
+
+                sortedCreators.forEach(creator => {
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.id = creator;
+                    input.dataset.role = role;  // Store the role in a data attribute
+                    input.checked = false;  // Initially unchecked
+                    roleContainer.appendChild(input);
+
+                    const label = document.createElement('label');
+                    label.setAttribute('for', creator);
+                    label.textContent = creator;
+                    roleContainer.appendChild(label);
+
+                    // When any checkbox changes, update the filter
+                    input.addEventListener('change', updateLayerFilter);
+                });
+
+                filterGroupCreators.appendChild(roleContainer);
+            };
+
+            // Create checkbox groups for each creator role
+            Object.keys(creatorsToWaypoints).forEach(role => createCheckboxGroup(role));
+
+            // Create checkboxes for each event
+            const sortedEvents = Object.keys(eventsToWaypoints).sort((a, b) => a.localeCompare(b));
+
+            sortedEvents.forEach(event => {
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.id = event;
+                input.dataset.role = 'event';
+                input.checked = false;  // Initially unchecked
+                filterGroupEvents.appendChild(input);
+
+                const label = document.createElement('label');
+                label.setAttribute('for', event);
+                label.textContent = event;
+                filterGroupEvents.appendChild(label);
+
+                // When any checkbox changes, update the filter
+                input.addEventListener('change', updateLayerFilter);
+            });
+        });
+
+        /*
+        Add an event listener that runs
+        when a user clicks on the map element.
+        */
+        map.on('click', (event) => {
+            // If the user clicked on one of your markers, get its information.
+            const features = map.queryRenderedFeatures(event.point, { layers: ['waypoints'] });
+            if (!features.length) {
+                return;
+            }
+            const feature = features[0];
+
+            // Lookup waypoint info
+            const name = feature.properties.name;
+            const currentWaypoint = waypoints[name]
+
+            //Gathering creator info
+            let creatorsInfo = '';
+            for (const key in currentWaypoint.creators) {
+                if (currentWaypoint.creators[key]) { //Checking value is not null
+                    creatorsInfo += `<h3>${key.charAt(0).toUpperCase() + key.slice(1)}: ${currentWaypoint.creators[key]}</h3>`;
+                }
+            }
+
+            /*
+            Create a popup, specify its options
+            and properties, and add it to the map.
+            */
+            const popup = new AnimatedPopup({
+                offset: 25,
+                openingAnimation: {
+                    duration: 300,
+                    easing: 'easeOutBack',
+                    transform: 'scale'
+                },
+                closingAnimation: {
+                    duration: 300,
+                    easing: 'easeInBack',
+                    transform: 'scale'
+                }
+            })
+                .setLngLat(feature.geometry.coordinates)
+                .setMaxWidth("500px")
+                .setHTML(
+                    `<div style="position: relative;">
+                    <img src="img/${currentWaypoint.image}.jpg" style="width:50%;">
+                    <h1>${feature.properties.name}</h1>
+                    <h2>Unveiled: ${currentWaypoint.date}</h2>
+                    ${creatorsInfo}
+                    <p>${currentWaypoint.description}</p>
+                    ${currentWaypoint.links ? `<p>Links:<br>${currentWaypoint.links}</p>` : ''} 
+                    </div>`
+                )
+                .addTo(map);
+        });
+
+        // Listen for click on links to fly
+        document.addEventListener('click', function (event) {
+            if (event.target && event.target.id === 'fly') {
+                //Extract text of the span element
+                const spanName = event.target.getAttribute('data-name');
+                // Look up the coordinates
+                const spanCoordinates = waypoints[spanName];
+                if (spanCoordinates) {
+                    // Fly to the mapped coordinates location
+                    map.flyTo({
+                        center: spanCoordinates.coordinates,
+                        zoom: 19,
+                        essential: true // this animation is considered essential with respect to prefers-reduced-motion
+                    });
+                } else {
+                    console.error('No coordinates found for that name.');
+                }
+            }
+        });
+
+        // Add zoom and rotation controls to the map.
+        map.addControl(new mapboxgl.NavigationControl({
+            visualizePitch: true
+        }));
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'waypoints', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'waypoints', () => {
+            map.getCanvas().style.cursor = '';
+        });
+
+        // Add an event listener to the compass button
+        document.querySelector('.mapboxgl-ctrl-compass').addEventListener('click', () => {
+            map.easeTo({
+                bearing: 0,
+                pitch: 0, // Reset pitch to 0 for a top-down view
+                duration: 1000 // Optional: duration of the animation in milliseconds
+            });
+        });
+    </script>
+</body>
+
+</html>
