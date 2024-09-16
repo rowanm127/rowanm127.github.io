@@ -615,7 +615,7 @@
         <div class="more-info-content">
             <span class="close-button">&times;</span>
             <h2>More info.</h2>
-            <p>This project was created through research from a variety of sources, in particular: <a href="https://www.londonremembers.com/" target="_blank">London Remembers</a>, <a href="https://artuk.org/" target="_blank">Art UK</a> and <a href="https://www.britannica.com/" target="_blank">Encyclopedia Britannica</a>. 
+            <p>This project was created through research from a variety of sources, in particular: <a href="https://www.londonremembers.com/" target="_blank">London Remembers</a>, <a href="https://artuk.org/" target="_blank">Art UK</a> and <a href="https://www.britannica.com/" target="_blank">Encyclopedia Britannica</a>.
             </p>
         </div>
     </div>
@@ -631,13 +631,17 @@
         </button>
         <div class="help-content">
             <p style="margin: 10px;">Drag using the left mouse button to move the map.</br>
-                Use the right mouse button to rotate and view the<br>map in 3D.
+                Use the right mouse button to rotate and view the<br>map in 3D. Press the compass button in the<br>top right to reset the view.<br>
+                Scroll with the mouse wheel to zoom in and out.
             </p>
+            <p style="margin: 10px">This project was created through research from a<br>variety of sources, in particular:<br><a href="https://www.londonremembers.com/" target="_blank">London Remembers</a>, <a href="https://artuk.org/" target="_blank">Art UK</a>,<br><a href="https://www.britannica.com/" target="_blank">Encyclopedia Britannica</a> and <a href="https://www.english-heritage.org.uk/" target="_blank">English Heritage</a>. 
+            </p>
+            <!--
             <button type="button" class="info-button no-select"><span class=" material-symbols-outlined">
                     info
                 </span>
                 <p style="overflow: hidden">More Info.</p>
-            </button>
+            </button>-->
         </div>
         <!--Reveal content of help button-->
         <script>
@@ -665,7 +669,7 @@
                         helpContainer.style.maxWidth = "440px";
                     }
                 });
-
+                
                 // Show the modal and close the help content when "More Info" is clicked
                 infoButton.addEventListener('click', () => {
                     modal.style.display = 'block';
@@ -864,7 +868,7 @@
                 events: "Battle of Miāni; Napoleonic Wars; British conquest of Sindh"
             },
             "Royal Marines": {
-                description: "Regardless of how we look at soldiers, either heroes or murderers, there seems to be more justification and acceptance towards memorials that remember all those who fell in the battle rather than just their leaders. Ordinary people who put their lives on the line with nothing but national pride and dedication to one's country to perform their duty.<br><br>This memorial commemorates Royal Marines who died during the Boxer Rebellion and the Second Boer War. <span id='fly' data-name='The Royal Artillery Boer War Memorial'>Another memorial to the Second Boer War can be found nearby this one.</span>",
+                description: "Regardless of how we look at soldiers, either heroes or murderers, there seems to be more justification and acceptance towards memorials that remember all those who fell in the battle rather than just their leaders. Ordinary people who put their lives on the line with nothing but national pride and dedication to one's country to perform their duty.<br><br>This memorial commemorates Royal Marines who died during the Boxer Rebellion and the Second Boer War.<span id='fly' data-name='The Royal Artillery Boer War Memorial'>Another memorial to the Second Boer War can be found nearby this one.</span>",
                 image: "royal_marines",
                 coordinates: [-0.129533, 51.506538],
                 date: "1903",
@@ -934,7 +938,7 @@
                     foundries: "Moore & Co.",
                     stonemasons: null
                 },
-                links: '<a href="https://www.english-heritage.org.uk/visit/london-statues-and-monuments/statues-gallery/" target="_blank">English Heritage</a>',
+                links: null,
                 roles: "Viceroy of India; Governor-General of India",
                 events: "Orissa Famine; Indian Rebellion of 1857; First Anglo-Sikh War; Second Anglo-Sikh War"
             },
@@ -1015,7 +1019,7 @@
             },
             "Charles De Gaulle Plaque": {
                 description: "A plaque marking where <span id='fly' data-name='Charles De Gaulle'>General Charles de Gaulle</span> set up Headquarters of the Free French Forces.",
-                image: null,
+                image: "cdg_plaque",
                 coordinates: null,
                 date: "1984",
                 creators: {
@@ -1030,7 +1034,7 @@
             },
             "Charles de Gaulle": {
                 description: "During the Second World War, after the fall of France in 1940, Charles de Gaulle fled to Britain, wanting to establish the Free French Forces to continue the fight against Nazi Germany. By taking control of several colonies, the French intended to use them as bases from which they could begin to liberate occupied France. After the war, de Gaulle poured his efforts into increasing French national independence as well as decolonising several French territories such as Algeria due to growing demands for independence. Despite this, he still sought to maintain some influence over these regions by continuing to maintain strong ties with them in a move which could be seen as a form of neo-colonialism.",
-                image: null,
+                image: "cdg",
                 coordinates: [-0.134240, 51.505580],
                 date: 1993,
                 creators: {
@@ -1045,61 +1049,39 @@
             },
             "Kitchener Plaque": {
                 description: "A plaque marking a location that <span id='fly' data-name='Kitchener'>Lord Kitchener</span> lived in. Visit his statue for more information.",
-                image: "",
+                image: "kitchener_plaque",
                 coordinates: null,
-                date: "",
+                date: "1924",
                 creators: {
                     sculptors: null,
                     architects: null,
                     foundries: null,
                     stonemasons: null
                 },
-                links: ""
+                links: null,
+                role: null,
+                events: "Second Boer War; First World War; Mahdist War"
             },
-            "Queen Alexandra Memorial": {
-                description: "",
-                image: "alexandra",
+            "Ottobah Cugoano": {
+                description: "Ottobah Cugoano was one of the first formerly enslaved people to write and publish in English. Schomberg House on Pall Mall, where this plaque can be found, is a place where Ottobah once served as a slave and campaigned towards anti-slavery.<br><br>The Cosways, who Ottobah served, were known for their Sunday parties. There, he met the Prince of Wales, his father, George III, and many more bourgeoisies who he wrote against in his books. Cugoano mysteriously disappeared after 1791 when he intended to go on a tour promoting his book 'Thoughts and Sentiments on the Evil and Wicked Traffic of the Slavery and Commerce of the Human Species'.",
+                image: "ottobah",
                 coordinates: null,
-                date: "",
+                date: "2020",
                 creators: {
                     sculptors: null,
-                    architects: null,
+                    architects: "English Heritage",
                     foundries: null,
                     stonemasons: null
                 },
-                links: ""
+                links: null,
+                role: null,
+                events: "Transatlantic Slave Trade"
             },
-            "Victoria Memorial": {
-                description: "If you look closely at this memorial you may see that the nose of Victoria actually looks different to the rest of the stone. This was allegedly damaged when the memorial was being refurbished and, despite the fact they used the same type of stone, it is unweathered and so for now sticks out like a sore thumb.",
-                image: "",
-                coordinates: [-0.140586, 51.501839],
-                date: "",
-                creators: {
-                    sculptors: null,
-                    architects: null,
-                    foundries: null,
-                    stonemasons: null
-                },
-                links: ""
-            },
-            "The Royal Artillery Boer War Memorial": {
-                description: "",
-                image: "",
-                coordinates: [-0.131039, 51.505465],
-                date: "",
-                creators: {
-                    sculptors: null,
-                    architects: null,
-                    foundries: null,
-                    stonemasons: null
-                },
-                links: ""
-            },
-            "Kitchener": {
-                description: "Potentially obstructed view of the statue. Most famous for having his face plastered on war recruitment posters. Appointed as commander in chief of the Indian army by <span id='fly' data-name='Lord Curzon'>Lord Curzon</span>, Kitchener fought over control of the army he had been appointed to and remained in India until 1909. He was disappointed to never be appointed viceroy of india.",
-                image: "kitchener",
-                coordinates: [-0.127956, 51.503924],
-                date: "",
+            "Commonwealth Panel": {
+                description: "A panel celebrating the 2018 Commonwealth Heads of Government Meeting. It covers a short history of the Commonwealth dating from its beginnings in 1949 up to the present day. The commonwealth is seen by some as a continuation of the British Empire.",
+                image: "commonwealth",
+                coordinates: null,
+                date: "2018",
                 creators: {
                     sculptors: null,
                     architects: null,
@@ -1108,96 +1090,201 @@
                 },
                 links: null
             },
-            "Earl Mountbatten of Burma": {
-                description: "",
-                image: "",
-                coordinates: null,
-                date: "",
+            "Queen Alexandra Memorial": {
+                description: "The wife of <span id='fly' data-name='King Edward VII'>Edward VII</span> and Empress of India. In the eyes of the British public, she was known for her beauty and manners, making her a lasting favourite. She founded the Imperial Military Nursing Service as well as creating Alexandra Rose Day to help raise funds for charity.",
+                image: "alexandra",
+                coordinates: [-0.136797, 51.504673],
+                date: "1932",
+                creators: {
+                    sculptors: "Alfred Gilbert",
+                    architects: null,
+                    foundries: "A.B. Burton",
+                    stonemasons: null
+                },
+                links: null
+            },
+            "Victoria Memorial": {
+                description: "The Queen of the Empire, where the sun never set. During Queen Victoria's reign, she reestablished and preserved the power of the British monarchy, put India under colonial custody and, despite the recent emancipation of slaves, continued to benefit heavily from the wealth that was generated.<br><br>Funnily enough, this memorial was mainly paid for by gathering money from the colonies of the Empire. These funds also paid for turning the Mall into a royal processional route, the erection of the Admiralty Arch and the re-facing of Buckingham Palace.<br><br>The nose on this statue has clearly been replaced but the reason for this seems to be a mystery.",
+                image: "victoria",
+                coordinates: [-0.140586, 51.501839],
+                date: "1911",
+                creators: {
+                    sculptors: "Thomas Brock",
+                    architects: "Aston Webb",
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: "Queen of the United Kingdom; Empress of India",
+                events: "Crimean War; Indian Rebellion of 1857"
+            },
+            "Buckingham Palace": {
+                description: "London home to the King or Queen since 1837. A representation of the British Monarchy built at the same time the Empire was colonising much of the World, and possibly paid for with money earned through these actions.<br><br>Buckingham House was bought by King George III for his wife, Charlotte, and for a while was known as the Queen's House. In the 1820s, King George IV ordered John Nash to convert the house into a palace. This project took many years to complete and Nash would constantly increase the costs of the renovations which ended in his removal as the architect. Edward Blore was then hired to complete the change, but the project was completed with many structural issues. Another British Architect, Sir Aston Webb, who also designed Admiralty Arch as well as the <span id='fly' data-name='Victoria Memorial'>Victoria Memorial</span>, was tasked with further work on the palace giving its current iconic appearance.",
+                image: "buckingham",
+                coordinates: [-0.140586, 51.501839],
+                date: "1911",
+                creators: {
+                    sculptors: null,
+                    architects: "John Nash; Edward Blore; James Pennethorne; Aston Webb",
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: "<a href='https://www.rct.uk/visit/buckingham-palace/who-built-buckingham-palace' target='_blank'>Royal Collection Trust</a>",
+                role: "Queen of the United Kingdom; Empress of India",
+                events: null
+            },
+            "The Royal Artillery Boer War Memorial": {
+                description: "This memorial remembers the Royal Artillery soldiers who died during the Second Boer War. The wars were between two Boer republics (the South African Republic and Orange Free State) and the British Empire over the Empire's rule in Southern Africa. The first conflict ended with the Empire sending over 180,000 troops and African politicians letting them take over the republics' capitals and annex them to the Empire.<br><br>During the second war, <span id='fly' data-name='Kitchener'>Herbet Kitchener</span> commanded the British army. Recognising that traditional warfare would be difficult against the Boers 'guerrilla warfare' tactics, <span id='fly' data-name='Kitchener'>Kitchener</span> began creating plans to build and operate concentration camps in which many Boers were sadly kept. The conditions within the camps were awful and it is estimated around 27,000 Boer women and children died.",
+                image: "royal_artillery_boer",
+                coordinates: [-0.131039, 51.505465],
+                date: "1910",
                 creators: {
                     sculptors: null,
                     architects: null,
                     foundries: null,
                     stonemasons: null
                 },
-                links: ""
+                links: null,
+                role: null,
+                events: "Second Boer War"
+            },
+            "Kitchener": {
+                description: "This statue is often covered when the horse guards area has temporary seating set up. However, you may not even need to see this statue to know his face, as it was plastered on the famous 'Your Country Needs You' posters during the First World War. This only added to his already popular status. People looked up to him, praising him and the way in which he was a representation of Britain itself.<br><br>Kitchener served and fought in many conflicts throughout his life and has links to other monuments on this route such as <span id='fly' data-name='The Royal Artillery Boer War Memorial'>The Royal Artillery Boer War Memorial</span> where Kitchener lead the creation of concentration camps, and <span id='fly' data-name='Lord Curzon'>Lord Curzon</span> whom Kitchener fell out with over management of the Indian Army. Unfortunately for Kitchener, he never got to be Viceroy of India like Curzon was and died disappointed to never have been appointed.",
+                image: "kitchener",
+                coordinates: [-0.127956, 51.503924],
+                date: "1926",
+                creators: {
+                    sculptors: "John Tweed",
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "Second Boer War; First World War; Mahdist War"
+            },
+            "Earl Mountbatten of Burma": {
+                description: "Unfortunately, due to the proximity to 10 Downing Street, this statue is completely inaccessible, but still visible.<br><br>The last Viceroy of India, Lord Mountbatten played a role in the independence of India and Pakistan. He realised that gradually giving independence to those countries could end up in a civil war and decided to transfer power quickly just a few months after he arrived in India.<br><br>Following this, he became the first Governor-General of independent India during which time he supported Prime Minister Nehru with political decisions to benefit India. On the other hand, the Pakistanis were not as keen towards the former Viceroy due to the issues concerning Kashmir, thinking lord Mountbatten was favouring India, and deemed him persona non grata (Latin: person not welcome).",
+                image: "mountbatten",
+                coordinates: null,
+                date: "1983",
+                creators: {
+                    sculptors: "Franta Belsky",
+                    architects: null,
+                    foundries: null,
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "First World War; Second World War"
             },
             "Robert Clive": {
-                description: "",
-                image: "",
+                description: "The real founder of the British Empire in India. Credited for laying the foundations of the East India Company in Bengal during the Battle of Plassey and also known for his lack of responsibility in the role he played during the Great Bengal Famine of 1770.<br><br>Clive got extremely rich through many controversial means, including accepting bribes from politicians to help them get to power. This led to a Parliamentary inquiry where he was criticised for his actions, but ultimately let go due to his significant services to Britain. Clive struggled with his mental health, potentially due to bipolar disorder, which, in addition to his controversial actions out in the open, most likely led to his suicide.<br><br>His statue is also surrounded by a great debate. Lord Curzon, in the 1900s, insisted that a hero like Clive must have a statue, but many people then were against it. Now, Clive is looked at with scrutiny due to his involvement in colonialism and oppression against Indians and many people continue to petition for the removal of this statue.",
+                image: "robert_clive",
                 coordinates: null,
-                date: "",
+                date: "1912",
                 creators: {
-                    sculptors: null,
-                    architects: null,
+                    sculptors: "John Tweed",
+                    architects: "George Somers Clarke",
                     foundries: null,
                     stonemasons: null
                 },
-                links: "",
+                links: null,
                 role: null,
-                events: null
+                events: "Battle of Plassey;The Great Bengal Famine"
             },
             "Westminster Scholars War Memorial": {
-                description: "",
-                image: "",
+                description: "Monument dedicated to those educated in Westminster who died during the Indian and Russian wars.",
+                image: "westminster_scholars",
                 coordinates: null,
-                date: "",
+                date: "1861",
                 creators: {
                     sculptors: null,
-                    architects: null,
+                    architects: "George Gilbert Scott",
                     foundries: null,
                     stonemasons: null
                 },
-                links: "",
-                role: null,
-                events: null
-            },
-            "George Canning": {
-                description: "",
-                image: "",
-                coordinates: null,
-                date: "",
-                creators: {
-                    sculptors: null,
-                    architects: null,
-                    foundries: null,
-                    stonemasons: null
-                },
-                links: "",
+                links: null,
                 role: null,
                 events: null
             },
             "Lord Palmerston": {
-                description: "",
+                description: "Referred to as 'the most English minister who ever governed England', Lord Palmerston served in the House of Commons for more than 50 years, three times as a foreign secretary of state and as a Prime Minister for a decade. During this time, Palmerston continued to oppose giving voting rights for the working class believing this could destabilise the political system. He also advised against having permanent allies, instead saying that Britain should only be looking for permanent interests. His aggressive foreign policy helped to solidify the British Empire's global power and continued dominance.",
                 image: "palmerston",
                 coordinates: [-0.127076, 51.500905],
-                date: "",
+                date: "1876",
                 creators: {
-                    sculptors: null,
+                    sculptors: "Thomas Woolner",
                     architects: null,
-                    foundries: null,
-                    stonemasons: null
+                    foundries: "R. Masefield & Co.",
+                    stonemasons: "J. Wren"
                 },
-                links: "",
+                links: null,
                 role: null,
-                events: "Opium Wars;Crimean War"
+                events: "Opium Wars;Crimean War;Abolition of Slavery"
             },
             "Jan Smuts": {
-                description: "",
+                description: "A good friend of <span id='fly' data-name='Churchill'>Churchill's</span> and former prime minister of the Union of South Africa. A man with extremely strong views favouring racism and segregation. Despite his views later in life shifting towards liberalisation, he never truly practised what he preached as his policies contributed to what would later become apartheid. This statue was just as controversial as Smuts' views on race issues, with Labour MPs attempting to ensure the statue was nowhere near Lincoln's, but Churchill insisted, and Smuts now stands in Parliament Square.",
                 image: "jan_smuts",
                 coordinates: null,
-                date: "",
+                date: "1956",
                 creators: {
-                    sculptors: null,
+                    sculptors: "Jacob Epstein",
                     architects: null,
-                    foundries: null,
+                    foundries: "Art Bronze Foundry",
                     stonemasons: null
                 },
-                links: "",
+                links: null,
+                role: null,
+                events: "Second Boer War;First World War;Second World War"
+            },
+            "Earl of Derby": {
+                description: "Three-time British Prime Minister Edward Smith Stanley who also served as Chief Secretary of Ireland as well as Secretary of State for War and the Colonies. He had many, many unsuccessful years before his recognition as a nobleman talented in speeches. Now, he is often forgotten even though he reformed parliament and essentially is the father of modern Conservatism in Britain.<br><br>He introduced the Irish Education Bill, pushed for the Abolition of Slaves Bill, worked on removing Jewish discrimination in Parliament, and helped the transfer of India's administration from the East India Company to the crown.",
+                image: "earl_of_derby",
+                coordinates: null,
+                date: "1874",
+                creators: {
+                    sculptors: "Matthew Noble; Horace Montford",
+                    architects: null,
+                    foundries: "Cox & Son; H. Young & Co.",
+                    stonemasons: "MacDonald, Field & Co."
+                },
+                links: null,
+                role: null,
+                events: "American Civil War; Indian Rebellion of 1857;Abolition of Slavery"
+            },
+            "Sir Robert Peel": {
+                description: "Two-times British Prime Minister, the founder of the Conservative Party, and the creator of the Metropolitan Police Service. The reason why policemen are sometimes called 'Bobbies' or 'Peelers'.<br><br>Before this statue, two were made by Carlo Marochetti, but were rejected and Matthew Noble was commissioned to make a new statue. Noble liked to experiment with modernising the clothes his subject wore, and, in this case, he sculpted Peel in unusually tight, for that time, trousers.",
+                image: "robert_peel",
+                coordinates: null,
+                date: "1876",
+                creators: {
+                    sculptors: "Matthew Noble",
+                    architects: null,
+                    foundries: "Cox & Son",
+                    stonemasons: null
+                },
+                links: null,
                 role: null,
                 events: null
             },
+            "Winston Churchill": {
+                description: "A strong supporter of the British Empire, Churchill was once voted as the greatest ever Briton. This was achieved despite his many controversies, both during his time and looking back from the modern day. Early in his life, Churchill was a war correspondent, sometimes playing dual role of solider and reporter. He travelled to places such as Cuba, reporting on the war of independence, as well as India on the North-West Frontier and joined <span id='fly' data-name='Kitchener'>Lord Kitchener's</span> expedition in the Nile. Like his good friend <span id='fly' data-name='Jan Smuts'>Jan Smuts</span>, Churchill believed in racial hierarchies. This fact could also perhaps explain his inability to act during the Bengal famine in 1943, instead choosing to mostly ignore it and then blame Indians for it. Churchill was also a supporter of Zionism despite his sometimes anti-semetic views and opposed granting Palestine self-rule.<br><br>Allegedly this statue is charged with a low electrical current that helps to stop pigeons from landing on it. Due to visible pigeon poo, it is safe to assume this is likely untrue.  This statue gets boarded up every time a protest occurs in the area, even if there is little chance of it being damaged or defaced.",
+                image: "churchill",
+                coordinates: null,
+                date: "1973",
+                creators: {
+                    sculptors: "Ivor Roberts-Jones",
+                    architects: null,
+                    foundries: "Meridian Foundry",
+                    stonemasons: null
+                },
+                links: null,
+                role: null,
+                events: "Second Boer War; Second World War; First World War; Mahdist War; Cold War; Arab Revolt in Palestine; Anglo-Irish War"
+            },
             "Monty": {
-                description: "Bernard Montgomery is a fairly well known war hero. Well known enough to have a statue outside the ministry of defense. However he is clearly not known well enough for people to know about his attempt at flirting with a 17 year old girl while he himself was in his 30s. He tried to achieve this by drawing tank strategy plans into the sand.",
+                description: "Bernard Montgomery is a fairly well-known war hero. Well-known enough to have a statue outside the Ministry of Defence. Lesser known are his attempts at flirting with a 17-year-old girl while in his 30s, attempting to achieve this by drawing tank strategy plans into the sand.<br><br>While he spent most of his career being looked up to for his military strategy, in later life his outspoken views on social and political issues such as supporting apartheid in South Africa and his opposition to legalising homosexuality make him a more controversial figure.",
                 image: "monty",
                 coordinates: null,
                 date: "1980",
@@ -1209,11 +1296,26 @@
                 },
                 links: null,
                 role: null,
-                events: null
+                events: "First World War; Anglo-Irish War; Arab Revolt in Palestine; Second World War"
+            },
+            "Iraq & Afghanistan Memorial": {
+                description: "Queen Elizabeth II unveiled this memorial with several people present including the controversial choice of Tony Blair, who had led Britain into the Iraq war. Meanwhile, relatives of those who had died were not invited to attend. Britain's history with Iraq goes back to just after the First World War when Britain took control of Iraq after it had been part of the Ottoman Empire. After gaining independence in 1932, it still took until 1958 for Iraq to become a republic.<br><br>During the 19th and 20th centuries, Britain took part in several wars in Afghanistan due to a strategic rivalry with Russia. The first war attempted to install a friendly regime in Kabul before having to retreat while the second war was more successful with Britain gaining control over Afghanistan's foreign affairs. The third war in the early 20th century saw Afghanistan fighting for and gaining full independence from the British.",
+                image: "iraq_afghan",
+                coordinates: null,
+                date: "2016",
+                creators: {
+                    sculptors: "Paul Day",
+                    architects: null,
+                    foundries: null,
+                    stonemasons: "stoneCIRCLE"
+                },
+                links: null,
+                role: null,
+                events: "Gulf War;Afghanistan War;Iraq War"
             },
             "Korean War Memorial": {
-                description: "",
-                image: "korea_war",
+                description: "This memorial was a gift from the Government of South Korea in memory of British soldiers who died during the Korean War, participating as part of the United Nations force. While not an obvious example of the British Empire, the war continued to show Britain’s influence throughout the world as they were the second largest force after the United States. The British Commonwealth Forces Korea was a formal name given to the British units serving in the war and included people from Australia, Britain, Canada, India and New Zealand.",
+                image: "korean_war",
                 coordinates: null,
                 date: "2014",
                 creators: {
@@ -1227,7 +1329,7 @@
                 events: "Korean War"
             },
             "Fleet Air Arm Memorial": {
-                description: "",
+                description: "A memorial to the Royal Naval Air Service and the Fleet Air Arm, of which many people from all over the Commonwealth served. This statue is designed to represent Daedalus, the Greek mythological figure who crafted wings out of feathers and beeswax for himself and his son, Icarus.",
                 image: "fleet_air",
                 coordinates: null,
                 date: "2000",
@@ -1242,7 +1344,7 @@
                 events: "First World War;Second World War;Korean War;Falklands War; Gulf War"
             },
             "Charles George Gordon": {
-                description: "",
+                description: "A British Army officer who fought in the Crimean War, Taiping Rebellion and the Mahdist War. During the Second Opium War, he took part and led the burning of the Chinese emperor's summer palace. He became known as “Chinese Gordon”, a nickname given due to his command of the “Ever Victorious Army”, a group of Chinese soldiers led by Europeans. In 1873, Gordon was appointed governor of the province of Equatoria in Sudan and spent his time crushing rebellions as well as suppressing the slave trade.<br><br>This statue was originally unveiled in Trafalgar Square with no formal ceremony before later being removed in 1943. After a stint in the grounds of Mentmore Towers, Churchill advocated for the statues' return to London. The short cane he is holding is known as his 'Wand of Victory', which was clearly not victorious enough to prevent his death during the Siege of Khartoum.",
                 image: "gordon",
                 coordinates: null,
                 date: "1888",
@@ -1254,47 +1356,47 @@
                 },
                 links: null,
                 role: null,
-                events: "Crimean War;Siege of Khartoum;Opium Wars"
+                events: "Crimean War;Siege of Khartoum;Opium Wars;Taiping Rebellion;Mahdist War"
             },
             "The Gurkha Soldier": {
-                description: "",
-                image: "",
+                description: "This statue, unveiled by Queen Elizabeth II, represents an unnamed Gurkha Soldier and is modelled after an identical statue inside the Foreign and Commonwealth Office. The sculptor for this statue, Philip Jackson, decided to scale up the original figure and work with a real Gurkha model, Captain Khemkumar Limbu.<br><br>The Gurkha's relationship with the British is an interesting one, having been born out of the Anglo-Nepalese War where defectors from the Gurkha army were used by Britain as irregular forces. They later served under the British East India Company in several wars such as both the Anglo-Sikh Wars as well as in the Indian Rebellion of 1857.",
+                image: "gurkha",
                 coordinates: null,
-                date: "",
+                date: "1997",
                 creators: {
                     sculptors: "Philip Jackson",
                     architects: "Cecil Denny Highton",
                     foundries: null,
                     stonemasons: null
                 },
-                links: "",
+                links: null,
                 role: null,
                 events: "Indian Rebellion of 1857;First World War;Second World War;Gulf War;Siege of Lucknow"
             },
             "Sir James Outram": {
-                description: "",
-                image: "",
+                description: "A comrade of <span id='fly' data-name='Henry Havelock'>Henry Havelock</span>, James Outram helped to relieve the siege of Lucknow. In recognition towards Havelock's 'achievements' in India, Outram, who out-ranked Havelock, stood down, allowing Havelock to ultimately command the force that relieved the siege.<br><br>Interestingly, the plans for Outram's statue started while he was still alive, originally hoping that a spot near Henry Havelock in Trafalgar Square might be available. This was denied and instead, a site in the upcoming Embankment Gardens was offered.",
+                image: "outram",
                 coordinates: null,
-                date: "",
+                date: "1971",
                 creators: {
-                    sculptors: null,
+                    sculptors: "Matthew Noble",
                     architects: null,
                     foundries: null,
                     stonemasons: null
                 },
-                links: "",
+                links: null,
                 role: null,
                 events: "Indian Rebellion of 1857;Siege of Lucknow"
             },
             "Imperial Camel Corps Memorial": {
-                description: "",
-                image: "",
+                description: "A memorial dedicated to members of the Camel Corps who came from Britain, Australia, New Zealand, and India. The sculptor of this statue, Major Cecil Brown, was also a member of the corps. Created initially to fight in the Middle East during the First World War, the corps became part of the Egyptian Expeditionary Force and took part in several battles such as the Sinai and Palestine campaigns as well as the Arab Revolt and Senussi Campaign.",
+                image: "camel_corp",
                 coordinates: null,
-                date: "",
+                date: "1921",
                 creators: {
-                    sculptors: null,
+                    sculptors: "Major Cecil Brown",
                     architects: null,
-                    foundries: null,
+                    foundries: "A.B. Burton",
                     stonemasons: null
                 },
                 links: null,
@@ -1302,13 +1404,13 @@
                 events: "First World War"
             },
             "Rudyard Kipling Plaque": {
-                description: "",
-                image: "",
+                description: "A writer and poet who celebrated British imperialism in his work. At the time Kipling was writing, many saw the Empire as a force for good, creating stability, order and unity. Retrospectively, looking up to the Empire in this way seems incomprehensible, and even those in the early 20th century thought Kipling’s views of imperialism often strayed too far. However, his peers could not deny his skill as a writer, and he was defended by many of them despite his strong and often racist opinions.",
+                image: "kipling_plaque",
                 coordinates: null,
-                date: "",
+                date: "1957",
                 creators: {
                     sculptors: null,
-                    architects: null,
+                    architects: "London County Council",
                     foundries: null,
                     stonemasons: null
                 },
