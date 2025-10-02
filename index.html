@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <title>Heart of the Empire</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js"></script>
     <script
         src="https://cdn.jsdelivr.net/npm/mapbox-gl-animated-popup@v0.4.0/dist/mapbox-gl-animated-popup.min.js"></script>
     <link rel="stylesheet" href="https://use.typekit.net/anr7rne.css">
@@ -75,50 +75,6 @@
             bottom: 10px;
             left: 10px;
         }
-
-        /* Modal background overlay */
-        .modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            z-index: 5;
-            /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black with opacity */
-        }
-
-        /* Modal content */
-        .more-info-content {
-            background-color: #fefefe;
-            margin: 20% auto;
-            padding: 20px;
-            border: 2px solid #c8202f;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 600px;
-        }
-
-        /* Close button */
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
 
         .help-container {
             max-width: 60px;
@@ -272,6 +228,7 @@
             position: relative;
         }
 
+        .filter-nav-active,
         .filter-nav button:hover {
             background-color: #f1f1f1;
         }
@@ -516,28 +473,28 @@
             font-style: italic;
         }
 
-        .alegreya-regular> {
+        .alegreya-regular {
             font-family: "Alegreya", serif;
             font-optical-sizing: auto;
             font-weight: 400;
             font-style: normal;
         }
 
-        .alegreya-medium> {
+        .alegreya-medium {
             font-family: "Alegreya", serif;
             font-optical-sizing: auto;
             font-weight: 500;
             font-style: normal;
         }
 
-        .alegreya-bold> {
+        .alegreya-bold {
             font-family: "Alegreya", serif;
             font-optical-sizing: auto;
             font-weight: 700;
             font-style: normal;
         }
 
-        .alegreya-regular-italic> {
+        .alegreya-regular-italic {
             font-family: "Alegreya", serif;
             font-optical-sizing: auto;
             font-weight: 400;
@@ -586,7 +543,7 @@
             margin: 0;
         }
 
-        p {
+        p, .button-title {
             font-family: "Alegreya", serif;
             font-optical-sizing: auto;
             font-weight: 400;
@@ -595,7 +552,7 @@
         }
 
         @media only screen and (max-width: 600px) {
-            p {
+            p, .button-title {
                 font-size: 15px;
                 line-height: 1;
             }
@@ -620,37 +577,23 @@
 
 <body>
     <div id="map"></div>
-    <div id="more-info" class="modal">
-        <div class="more-info-content">
-            <span class="close-button">&times;</span>
-            <h2>More info.</h2>
-            <p>This project was created through research from a variety of sources, in particular: <a href="https://www.londonremembers.com/" target="_blank">London Remembers</a>, <a href="https://artuk.org/" target="_blank">Art UK</a> and <a href="https://www.britannica.com/" target="_blank">Encyclopedia Britannica</a>.
-            </p>
-        </div>
-    </div>
     <!--Help Button-->
     <div class="help-container">
         <button type="button" class="help-button">
-            <div class="help-icon no-select"><span class="material-symbols-outlined">
+            <span class="help-icon no-select"><span class="material-symbols-outlined">
                     help
-                </span></div>
-            <p style="overflow: hidden;">
+                </span></span>
+            <span class="button-title" style="overflow: hidden;">
                 Help
-            </p>
+            </span>
         </button>
         <div class="help-content">
-            <p style="margin: 10px;">Drag using the left mouse button to move the map.</br>
+            <p style="margin: 10px;">Drag using the left mouse button to move the map.<br>
                 Use the right mouse button to rotate and view the<br>map in 3D. Press the compass button in the<br>top right to reset the view.<br>
                 Scroll with the mouse wheel to zoom in and out.
             </p>
-            <p style="margin: 10px">This project was created through research from a<br>variety of sources, in particular:<br><a href="https://www.londonremembers.com/" target="_blank">London Remembers</a>, <a href="https://artuk.org/" target="_blank">Art UK</a>,<br><a href="https://www.britannica.com/" target="_blank">Encyclopedia Britannica</a> and <a href="https://www.english-heritage.org.uk/" target="_blank">English Heritage</a>. 
+            <p style="margin: 10px">This project was created through research from a<br>variety of sources, in particular:<br><a href="https://www.londonremembers.com/" target="_blank" rel="noopener noreferrer">London Remembers</a>, <a href="https://artuk.org/" target="_blank" rel="noopener noreferrer">Art UK</a>,<br><a href="https://www.britannica.com/" target="_blank" rel="noopener noreferrer">Encyclopedia Britannica</a> and <a href="https://www.english-heritage.org.uk/" target="_blank" rel="noopener noreferrer">English Heritage</a>. 
             </p>
-            <!--
-            <button type="button" class="info-button no-select"><span class=" material-symbols-outlined">
-                    info
-                </span>
-                <p style="overflow: hidden">More Info.</p>
-            </button>-->
         </div>
         <!--Reveal content of help button-->
         <script>
@@ -678,41 +621,18 @@
                         helpContainer.style.maxWidth = "440px";
                     }
                 });
-                
-                // Show the modal and close the help content when "More Info" is clicked
-                infoButton.addEventListener('click', () => {
-                    modal.style.display = 'block';
-                    helpContainer.classList.remove('help-active');
-                    helpContent.classList.remove('help-active');
-                    helpButton.classList.remove('help-active');
-                    helpContent.style.maxHeight = null;
-                    helpContainer.style.maxWidth = null;
-                });
-
-                // Close the modal when the close button is clicked
-                closeButton.addEventListener('click', () => {
-                    modal.style.display = 'none';
-                });
-
-                // Close the modal when clicking outside of the modal
-                window.addEventListener('click', (event) => {
-                    if (event.target === modal) {
-                        modal.style.display = 'none';
-                    }
-                });
             });
-
         </script>
     </div>
     <!--Filter Button-->
     <div class="filter-container">
         <button type="button" class="filter-button">
-            <div class="filter-icon no-select"><span class="material-symbols-outlined">
+            <span class="filter-icon no-select"><span class="material-symbols-outlined">
                     filter_list
-                </span></div>
-            <p style="overflow: hidden;">
+                </span></span>
+            <span class="button-title" style="overflow: hidden;">
                 Filters
-            </p>
+            </span>
         </button>
         <div class="filter-content">
             <div class="filter-group-outer">
@@ -748,6 +668,8 @@
             //Filter <div> select buttons
             const creatorsFilter = document.getElementById("creators")
             const eventsFilter = document.getElementById("events")
+            const creatorsButton = document.getElementById("creators-button")
+            const eventsButton = document.getElementById("events-button")
 
             document.addEventListener('click', function (event) {
                 if (event.target && event.target.id === 'creators-button') {
@@ -764,17 +686,17 @@
     <!--Download Button-->
     <div class="download-container">
         <button type="button" class="download-button">
-            <div class="download-icon no-select"><span class="material-symbols-outlined">
+            <span class="download-icon no-select"><span class="material-symbols-outlined">
                     download
-                </span></div>
-            <p style="overflow: hidden;">
+                </span></span>
+            <span class="button-title" style="overflow: hidden;">
                 Download
-            </p>
+            </span>
         </button>
         <div class="download-content">
-            <img src="img/EmpireWalkQR.png" alt="QR Code" style="padding: 10px; width: 200px;"></img>
+            <img src="img/EmpireWalkQR.png" alt="QR Code" style="padding: 10px; width: 200px;">
             <p style="font-size: 16px;">This QR code will download a .gpx file of the route for you to follow in your own
-                time. I recommend an offline maps app such as <a href="https://organicmaps.app/" target="_blank">Organic
+                time. I recommend an offline maps app such as <a href="https://organicmaps.app/" target="_blank" rel="noopener noreferrer">Organic
                     Maps</a>.</p>
         </div>
         <!--Reveal content of download button-->
@@ -812,8 +734,10 @@
     <!--This script is for camera movement-->
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     <!--Map Scripts-->
+    <script src="config.local.js"></script>
+    <script src="config.prod.js"></script>
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1Ijoicm93eW91cmJvYXQxMjciLCJhIjoiY20wejYzc3EwMDJraTJsc2Z4aW1nMHhkNSJ9.0t2ieqjgaAAMgb7CYDFGiQ';
+        mapboxgl.accessToken = window.MAPBOX_TOKEN;
         // Set bounds
         const bounds = [
             [-0.15806827, 51.4953854], // Southwest coordinates
@@ -872,7 +796,7 @@
                     foundries: "Messrs Thompson of Pimlico",
                     stonemasons: null
                 },
-                links: "<a href='https://www.victorianweb.org/sculpture/adams/1b.html' target='_blank'>The Victorian Web</a>",
+                links: "<a href='https://www.victorianweb.org/sculpture/adams/1b.html' target='_blank' rel='noopener noreferrer'>The Victorian Web</a>",
                 roles: "British General; Governor of Sindh; Commander-in-Chief of India",
                 events: "Battle of Miāni; Napoleonic Wars; British conquest of Sindh"
             },
@@ -932,7 +856,7 @@
                     foundries: null,
                     stonemasons: null
                 },
-                links: '<a href="https://www.english-heritage.org.uk/visit/blue-plaques/william-ewart-gladstone/" target="_blank">English Heritage</a>',
+                links: '<a href="https://www.english-heritage.org.uk/visit/blue-plaques/william-ewart-gladstone/" target="_blank" rel="noopener noreferrer">English Heritage</a>',
                 roles: "Former British Prime Minister",
                 events: "Bulgarian Horrors; Irish Home Rule Movement; American Civil War; First Boer War; Second Anglo-Afghan War; Mahdist War; Opium Wars"
             },
@@ -962,7 +886,7 @@
                     foundries: "J.W. Singer & Sons",
                     stonemasons: null
                 },
-                links: '<a href="https://www.britishpathe.com/asset/48903/" target="_blank">Statue Unveiling Video</a>',
+                links: '<a href="https://www.britishpathe.com/asset/48903/" target="_blank" rel="noopener noreferrer">Statue Unveiling Video</a>',
                 roles: "King of the United Kingdom; Emperor of India",
                 events: "Second Boer War"
             },
@@ -992,7 +916,7 @@
                     foundries: null,
                     stonemasons: null
                 },
-                links: "<a href='https://www.youtube.com/watch?v=MtT6IsG-mIw' target='_blank'>Statue Unveiling</a>",
+                links: "<a href='https://www.youtube.com/watch?v=MtT6IsG-mIw' target='_blank' rel='noopener noreferrer'>Statue Unveiling</a>",
                 roles: "Viceroy of India; Foreign Secretary",
                 events: "First World War"
             },
@@ -1138,7 +1062,7 @@
                     foundries: null,
                     stonemasons: null
                 },
-                links: "<a href='https://www.rct.uk/visit/buckingham-palace/who-built-buckingham-palace' target='_blank'>Royal Collection Trust</a>",
+                links: "<a href='https://www.rct.uk/visit/buckingham-palace/who-built-buckingham-palace' target='_blank' rel='noopener noreferrer'>Royal Collection Trust</a>",
                 role: "Queen of the United Kingdom; Empress of India",
                 events: null
             },
